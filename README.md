@@ -35,7 +35,7 @@ Traditional hiring relies on CVs and artificial interviews that fail to reflect 
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ### Frontend Stack
 - **Framework:** React 18 + TypeScript
@@ -99,7 +99,7 @@ VITE_LANGGRAPH_API_KEY=YOUR_API_KEY_HERE  # Triggers mock responses
 
 ---
 
-## 📱 Core Features
+## Core Features
 
 ### 1️⃣ Entry Portal (SSO Authentication)
 
