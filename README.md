@@ -1,4 +1,4 @@
-# LuppoGrove - University-Industry Collaboration Platform
+# 🌲 LuppoGrove - University-Industry Collaboration Platform
 
 <div align="center">
 
@@ -361,6 +361,18 @@ npm run lint         # Run ESLint
 | **[src/app/services/README.md](./src/app/services/README.md)** | Service layer documentation |
 | **[.env.example](./.env.example)** | Environment variable template |
 
+---
+
+## 🎨 Design Philosophy
+
+### Nordic Minimalism Principles
+
+1. **Form Follows Function** - Every element serves a clear purpose
+2. **Warmth Through Simplicity** - Soft colors, generous whitespace
+3. **High Contrast Typography** - Inter font for maximum legibility
+4. **Soft Geometry** - 12-16px border radius for approachable feel
+5. **Subtle Elevation** - Diffused shadows mimicking natural light
+
 ### Component Guidelines
 
 - ✅ Use design tokens from `theme.css`
@@ -444,6 +456,24 @@ npm run lint         # Run ESLint
 ## 📄 License
 
 This project is developed for deployment on **Rahti CSC Cloud Infrastructure** and adheres to CSC's usage policies.
+
+---
+
+## 🙏 Acknowledgments
+
+- **CSC - IT Center for Science** for Rahti cloud infrastructure
+- **Funet / Haka Federation** for university authentication
+- **LangChain** for LangGraph framework
+- **Nordic design community** for aesthetic inspiration
+
+---
+
+## 📞 Support
+
+- **Technical Issues:** Open a GitHub issue
+- **Backend Integration:** See `BACKEND_INTEGRATION.md`
+- **Rahti Support:** https://docs.csc.fi/cloud/rahti/
+- **Haka Support:** https://wiki.eduuni.fi/display/CSCHAKA/
 
 ---
 
