@@ -479,8 +479,6 @@ This project is developed for deployment on **Rahti CSC Cloud Infrastructure** a
 
 <div align="center">
 
-**Built with 🌲 in Finland**
-
 *"Transforming academic-industry partnerships through intelligent collaboration"*
 
 </div>
