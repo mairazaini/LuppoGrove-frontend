@@ -16,6 +16,7 @@ import { ProjectOverview } from "./pages/ProjectOverview";
 import { CourseGallery } from "./pages/CourseGallery";
 import { ProjectMarketplace } from "./pages/ProjectMarketplace";
 import { TeacherProposalReview } from "./pages/TeacherProposalReview";
+import { TeacherProposalDetail } from "./pages/TeacherProposalDetail";
 import { TeacherCourseBuilder } from "./pages/TeacherCourseBuilder";
 import { CoordinatorProposalPipeline } from "./pages/CoordinatorProposalPipeline";
 
@@ -91,6 +92,10 @@ export const router = createBrowserRouter([
   {
     path: "/teacher/proposals/:proposalId/review",
     Component: TeacherProposalReview,
+  },
+  {
+    path: "/teacher/proposals/:proposalId/details",
+    Component: TeacherProposalDetail,
   },
   {
     path: "/student",
