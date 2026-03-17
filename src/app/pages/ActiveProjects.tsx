@@ -221,6 +221,20 @@ const NAV_ITEMS = [
 export function ActiveProjects() {
   const navigate = useNavigate();
   const [expandedProject, setExpandedProject] = useState<string | null>("1"); // LUT expanded by default
+  // Lift uploaded file state to parent so it survives accordion toggle
+  const [uploadedFiles, setUploadedFiles] = useState<Record<string, string>>({});
+
+  const handleFileUploaded = (milestoneId: string, fileName: string) => {
+    setUploadedFiles((prev) => ({ ...prev, [milestoneId]: fileName }));
+  };
+
+  const handleFileRemoved = (milestoneId: string) => {
+    setUploadedFiles((prev) => {
+      const next = { ...prev };
+      delete next[milestoneId];
+      return next;
+    });
+  };
 
   const toggleProject = (id: string) => {
     setExpandedProject((prev) => (prev === id ? null : id));
@@ -459,6 +473,9 @@ export function ActiveProjects() {
                   onNavigate={() =>
                     navigate(`/company/projects/${project.id}/workspace`)
                   }
+                  uploadedFiles={uploadedFiles}
+                  onFileUploaded={handleFileUploaded}
+                  onFileRemoved={handleFileRemoved}
                 />
               );
             })}
@@ -477,11 +494,17 @@ function ProjectCard({
   isExpanded,
   onToggle,
   onNavigate,
+  uploadedFiles,
+  onFileUploaded,
+  onFileRemoved,
 }: {
   project: ActiveProject;
   isExpanded: boolean;
   onToggle: () => void;
   onNavigate: () => void;
+  uploadedFiles: Record<string, string>;
+  onFileUploaded: (milestoneId: string, fileName: string) => void;
+  onFileRemoved: (milestoneId: string) => void;
 }) {
   return (
     <div
@@ -761,6 +784,9 @@ function ProjectCard({
                 milestone={milestone}
                 index={index}
                 ganttColor={project.ganttColor}
+                uploadedFiles={uploadedFiles}
+                onFileUploaded={onFileUploaded}
+                onFileRemoved={onFileRemoved}
               />
             ))}
           </div>
@@ -811,14 +837,20 @@ function MilestoneItem({
   milestone,
   index,
   ganttColor,
+  uploadedFiles,
+  onFileUploaded,
+  onFileRemoved,
 }: {
   milestone: GanttMilestone;
   index: number;
   ganttColor: string;
+  uploadedFiles: Record<string, string>;
+  onFileUploaded: (milestoneId: string, fileName: string) => void;
+  onFileRemoved: (milestoneId: string) => void;
 }) {
   const [dragOver, setDragOver] = useState(false);
   const [uploadedFile, setUploadedFile] = useState<string | null>(
-    milestone.submittedFile ?? null
+    milestone.submittedFile ?? uploadedFiles[milestone.id] ?? null
   );
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -855,9 +887,10 @@ function MilestoneItem({
       const files = e.dataTransfer.files;
       if (files.length > 0) {
         setUploadedFile(files[0].name);
+        onFileUploaded(milestone.id, files[0].name);
       }
     },
-    [canUpload]
+    [canUpload, milestone.id, onFileUploaded]
   );
 
   const handleFileSelect = useCallback(
@@ -865,15 +898,17 @@ function MilestoneItem({
       const files = e.target.files;
       if (files && files.length > 0) {
         setUploadedFile(files[0].name);
+        onFileUploaded(milestone.id, files[0].name);
       }
     },
-    []
+    [milestone.id, onFileUploaded]
   );
 
   const handleRemoveFile = useCallback(() => {
     setUploadedFile(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
-  }, []);
+    onFileRemoved(milestone.id);
+  }, [milestone.id, onFileRemoved]);
 
   /* ── Status icon ── */
   const StatusIcon = () => {

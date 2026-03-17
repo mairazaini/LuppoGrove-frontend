@@ -1,4 +1,4 @@
-# LuppoGrove - University-Industry Collaboration Platform
+# 🌲 LuppoGrove - University-Industry Collaboration Platform
 
 <div align="center">
 
@@ -12,7 +12,7 @@
 
 ---
 
-## Project Overview
+## 🎯 Project Overview
 
 LuppoGrove transforms academic-industry partnerships by functioning as a sophisticated, dual-sided marketplace—an **"Airbnb for Collaboration"**—where university courses serve as the hosting environments and corporate project topics seek placement through tangible, outcome-driven execution.
 
@@ -35,7 +35,7 @@ Traditional hiring relies on CVs and artificial interviews that fail to reflect 
 
 ---
 
-## Architecture
+## 🏗️ Architecture
 
 ### Frontend Stack
 - **Framework:** React 18 + TypeScript
@@ -63,7 +63,7 @@ Traditional hiring relies on CVs and artificial interviews that fail to reflect 
 
 ---
 
-## Quick Start
+## 🚀 Quick Start
 
 ### Prerequisites
 - Node.js 20+
@@ -99,14 +99,14 @@ VITE_LANGGRAPH_API_KEY=YOUR_API_KEY_HERE  # Triggers mock responses
 
 ---
 
-## Core Features
+## 📱 Core Features
 
 ### 1️⃣ Entry Portal (SSO Authentication)
 
 **Nordic-styled login** with dual authentication pathways:
 
-- **University Login** → Haka Federation (SAML 2.0 via Microsoft Entra ID)
-- **Company Login** → Google Workspace (OAuth 2.0)
+- 🎓 **University Login** → Haka Federation (SAML 2.0 via Microsoft Entra ID)
+- 💼 **Company Login** → Google Workspace (OAuth 2.0)
 
 Automatically routes users based on organizational role detection.
 
@@ -118,10 +118,10 @@ Automatically routes users based on organizational role detection.
 
 **B2B SaaS-inspired dashboard** featuring:
 
-- **Gantt Chart Timeline** - Visual course schedules with hover tooltips
-- **Course Gallery** - Airbnb-style cards filtered by university
-- **Team Hierarchy** - Role-based access control (Owner, Co-owner, Developer)
-- **Submit Idea CTA** - Opens AI Project Wizard
+- 📊 **Gantt Chart Timeline** - Visual course schedules with hover tooltips
+- 🏫 **Course Gallery** - Airbnb-style cards filtered by university
+- 👥 **Team Hierarchy** - Role-based access control (Owner, Co-owner, Developer)
+- ➕ **Submit Idea CTA** - Opens AI Project Wizard
 
 **File:** `src/app/pages/CompanyHub.tsx`
 
@@ -151,9 +151,9 @@ Automatically routes users based on organizational role detection.
 
 **Flexible template engine** with smart automation:
 
-- **AI Smart Paste** - Paste syllabus from Sisu/Moodle → Auto-extract fields
-- **Gantt Milestones** - Define proposal deadline, mid-term, final delivery
-- **Custom Proposal Fields** - Dynamic form builder
+- 🎨 **AI Smart Paste** - Paste syllabus from Sisu/Moodle → Auto-extract fields
+- 📅 **Gantt Milestones** - Define proposal deadline, mid-term, final delivery
+- 🎯 **Custom Proposal Fields** - Dynamic form builder
   - Text paragraph (with character limits)
   - Short text
   - File upload / folder
@@ -168,10 +168,10 @@ Automatically routes users based on organizational role detection.
 
 **Canva-style team formation** interface:
 
-- **Student Pool** - Draggable peer cards with major badges
-- **Role Slots** - Drop zones with role requirements
-- **Live Team Roster** - Visual squad composition
-- **Constraint Validation** - Enforces project requirements
+- 👤 **Student Pool** - Draggable peer cards with major badges
+- 🎯 **Role Slots** - Drop zones with role requirements
+- 🔄 **Live Team Roster** - Visual squad composition
+- ✅ **Constraint Validation** - Enforces project requirements
 
 **Library:** `react-dnd` with HTML5 backend
 
@@ -232,7 +232,7 @@ function MyComponent() {
 
 ---
 
-## Authentication & Security
+## 🔐 Authentication & Security
 
 ### Haka Federation (Universities)
 
@@ -261,7 +261,7 @@ function MyComponent() {
 
 ---
 
-## Deployment (Rahti CSC Cloud)
+## 🐳 Deployment (Rahti CSC Cloud)
 
 ### Prerequisites
 - OpenShift CLI (`oc`)
@@ -309,7 +309,7 @@ oc get routes
 
 ---
 
-## Development
+## 🧪 Development
 
 ### Project Structure
 
@@ -363,7 +363,7 @@ npm run lint         # Run ESLint
 
 ---
 
-## Design Philosophy
+## 🎨 Design Philosophy
 
 ### Nordic Minimalism Principles
 
@@ -383,7 +383,7 @@ npm run lint         # Run ESLint
 
 ---
 
-## Contributing
+## 🤝 Contributing
 
 ### Development Workflow
 
@@ -404,7 +404,7 @@ npm run lint         # Run ESLint
 
 ---
 
-## Roadmap
+## 🔮 Roadmap
 
 ### Phase 1: Foundation (Current)
 - ✅ UI components with Nordic design system
@@ -432,7 +432,7 @@ npm run lint         # Run ESLint
 
 ---
 
-## Technical Specifications
+## 📊 Technical Specifications
 
 ### Browser Support
 - ✅ Chrome 90+
@@ -459,7 +459,7 @@ This project is developed for deployment on **Rahti CSC Cloud Infrastructure** a
 
 ---
 
-## Acknowledgments
+## 🙏 Acknowledgments
 
 - **CSC - IT Center for Science** for Rahti cloud infrastructure
 - **Funet / Haka Federation** for university authentication
@@ -468,7 +468,7 @@ This project is developed for deployment on **Rahti CSC Cloud Infrastructure** a
 
 ---
 
-## Support
+## 📞 Support
 
 - **Technical Issues:** Open a GitHub issue
 - **Backend Integration:** See `BACKEND_INTEGRATION.md`
@@ -478,6 +478,8 @@ This project is developed for deployment on **Rahti CSC Cloud Infrastructure** a
 ---
 
 <div align="center">
+
+**Built with 🌲 in Finland**
 
 *"Transforming academic-industry partnerships through intelligent collaboration"*
 

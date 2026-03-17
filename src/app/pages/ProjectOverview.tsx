@@ -275,7 +275,7 @@ export function ProjectOverview() {
           </div>
 
           {/* Title */}
-          <h1 style={{ fontSize: 32, fontWeight: 700, color: "#111827", margin: 0, marginBottom: 8 }}>
+          <h1 style={{ fontSize: 36, fontWeight: 700, color: "#111827", margin: 0, marginBottom: 8 }}>
             {project.title}
           </h1>
           <div className="flex items-center gap-3 mb-8">

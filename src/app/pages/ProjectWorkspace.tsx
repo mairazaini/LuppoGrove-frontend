@@ -15,7 +15,6 @@ import {
 import { DemoNav } from "@/app/components/DemoNav";
 
 // Company Active Projects & Submissions - Moodle-style Interface for B2B Users
-// Rebuild: force module reload v3
 
 interface TeacherRequest {
   id: string;
@@ -29,59 +28,138 @@ interface TeacherRequest {
   };
 }
 
+interface ProjectData {
+  title: string;
+  teacher: string;
+  sponsor: string;
+  currentWeek: number;
+  totalWeeks: number;
+  requests: TeacherRequest[];
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PROJECT DATA — keyed by projectId, aligned with ActiveProjects Fall 2026
+   ═══════════════════════════════════════════════════════════ */
+const PROJECT_DB: Record<string, ProjectData> = {
+  "1": {
+    title: "LUT Capstone: Software Engineering",
+    teacher: "Prof. Jonas Hämäläinen",
+    sponsor: "Konecranes",
+    currentWeek: 4,
+    totalWeeks: 18,
+    requests: [
+      {
+        id: "1",
+        title: "Project Plan & NDA Sign-off",
+        description: "Upload the signed NDA documents and initial project plan with team role assignments and sprint schedule",
+        deadline: "Sep 15, 2026",
+        status: "pending",
+      },
+      {
+        id: "2",
+        title: "Architecture Review Document",
+        description: "Upload the system architecture diagram showing data flow, component interactions, and technology stack decisions",
+        deadline: "Oct 1, 2026",
+        status: "pending",
+      },
+      {
+        id: "3",
+        title: "Team Registration Confirmation",
+        description: "Confirm final team composition with student IDs and role assignments",
+        deadline: "Aug 25, 2026",
+        status: "completed",
+        submittedFile: {
+          name: "Team_Registration_LUT.pdf",
+          submittedOn: "Aug 24, 2026",
+        },
+      },
+    ],
+  },
+  "2": {
+    title: "Aalto: Software Engineering Project",
+    teacher: "Dr. Maria Rantanen",
+    sponsor: "Konecranes",
+    currentWeek: 7,
+    totalWeeks: 18,
+    requests: [
+      {
+        id: "1",
+        title: "Mid-term Review Presentation",
+        description: "Prepare and upload the mid-term review slide deck covering progress, blockers, and updated timeline",
+        deadline: "Oct 28, 2026",
+        status: "pending",
+      },
+      {
+        id: "2",
+        title: "Sprint Retrospective Report",
+        description: "Summary of sprints 1-3 with velocity charts and burndown analysis",
+        deadline: "Oct 15, 2026",
+        status: "pending",
+      },
+      {
+        id: "3",
+        title: "Team Selection Confirmation",
+        description: "Final team allocation with student preferences and skill mapping",
+        deadline: "Sep 22, 2026",
+        status: "completed",
+        submittedFile: {
+          name: "team-selection-v2.pdf",
+          submittedOn: "Sep 20, 2026",
+        },
+      },
+    ],
+  },
+  "3": {
+    title: "Helsinki: OHTU — Software Production",
+    teacher: "Prof. Antti Salminen",
+    sponsor: "Konecranes",
+    currentWeek: 5,
+    totalWeeks: 10,
+    requests: [
+      {
+        id: "1",
+        title: "Sprint Review Documentation",
+        description: "Upload sprint review notes including demo recording link, completed user stories, and customer feedback",
+        deadline: "Oct 22, 2026",
+        status: "pending",
+      },
+      {
+        id: "2",
+        title: "Team Allocation Confirmation",
+        description: "Confirm final team allocation with student assignments",
+        deadline: "Sep 22, 2026",
+        status: "completed",
+        submittedFile: {
+          name: "allocation-confirmation.pdf",
+          submittedOn: "Sep 21, 2026",
+        },
+      },
+    ],
+  },
+};
+
+const DEFAULT_PROJECT: ProjectData = PROJECT_DB["1"];
+
+/* ═══════════════════════════════════════════════════════════
+   NAV ITEMS
+   ═══════════════════════════════════════════════════════════ */
+const NAV_ITEMS = [
+  { id: "browse", label: "Browse Courses", icon: BookOpen, path: "/company" },
+  { id: "proposals", label: "My Proposals", icon: FileText, path: "/company/proposals" },
+  { id: "projects", label: "Active Projects", icon: FolderOpen, path: "/company/projects", notif: true },
+];
+
 export function ProjectWorkspace() {
   const navigate = useNavigate();
   const { projectId } = useParams();
   const [uploadedFiles, setUploadedFiles] = useState<Record<string, File>>({});
   const [dragActive, setDragActive] = useState<Record<string, boolean>>({});
 
-  const projectTitle = "LUT Capstone: Predictive Maintenance";
-  const teacher = "Prof. Maria Paasivaara";
-  const currentWeek = 4;
-  const totalWeeks = 14;
-  const progressPercentage = Math.round((currentWeek / totalWeeks) * 100);
+  const project = PROJECT_DB[projectId ?? ""] ?? DEFAULT_PROJECT;
+  const progressPercentage = Math.round((project.currentWeek / project.totalWeeks) * 100);
 
-  const teacherRequests: TeacherRequest[] = [
-    {
-      id: "1",
-      title: "Architecture Review Document",
-      description: "Upload the final system architecture diagram showing data flow and component interactions",
-      deadline: "March 6, 2026",
-      status: "pending",
-    },
-    {
-      id: "2",
-      title: "Telemetry Data Analysis Report",
-      description: "Provide analysis of the sample telemetry data with statistical summaries",
-      deadline: "March 10, 2026",
-      status: "pending",
-    },
-    {
-      id: "3",
-      title: "Initial Concept Pitch",
-      description: "Project proposal and initial approach presentation",
-      deadline: "Feb 15, 2026",
-      status: "completed",
-      submittedFile: {
-        name: "Concept_Pitch_Konecranes.pdf",
-        submittedOn: "Feb 25",
-      },
-    },
-    {
-      id: "4",
-      title: "Team Member NDA Confirmation",
-      description: "Signed NDA documents from all participating team members",
-      deadline: "Feb 20, 2026",
-      status: "completed",
-      submittedFile: {
-        name: "Team_NDAs_Signed.pdf",
-        submittedOn: "Feb 19",
-      },
-    },
-  ];
-
-  const pendingRequests = teacherRequests.filter(req => req.status === "pending");
-  const completedRequests = teacherRequests.filter(req => req.status === "completed");
+  const pendingRequests = project.requests.filter(req => req.status === "pending");
+  const completedRequests = project.requests.filter(req => req.status === "completed");
 
   const handleFileUpload = (requestId: string, file: File) => {
     setUploadedFiles(prev => ({ ...prev, [requestId]: file }));
@@ -113,133 +191,205 @@ export function ProjectWorkspace() {
   };
 
   return (
-    <div className="min-h-screen flex bg-[#fafaf9]">
+    <div className="min-h-screen flex bg-[#fafaf9]" style={{ fontFamily: "Inter, sans-serif" }}>
       <DemoNav />
 
-      {/* B2B Left Sidebar Navigation */}
-      <aside className="w-[280px] bg-white border-r border-gray-200 flex flex-col p-6 fixed h-full">
+      {/* Sidebar — 260px Fixed (consistent with other views) */}
+      <aside
+        className="fixed left-0 top-0 h-screen flex flex-col bg-white z-20"
+        style={{ width: 260, padding: 24, borderRight: "1px solid #e8e8e6" }}
+      >
         {/* Logo */}
-        <div className="flex items-center gap-2 mb-8">
+        <div className="flex items-center gap-2.5 mb-10">
           <Trees className="w-6 h-6 text-[#2d5a47]" strokeWidth={1.5} />
-          <span className="text-lg font-medium text-gray-900">LuppoGrove</span>
+          <span
+            style={{
+              fontSize: 20,
+              fontWeight: 700,
+              color: "#2d5a47",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            LuppoGrove
+          </span>
         </div>
 
         {/* Navigation Menu */}
-        <nav className="space-y-2 flex-1">
-          <button
-            onClick={() => navigate("/company")}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-          >
-            <BookOpen className="w-4 h-4" strokeWidth={1.5} />
-            Browse Courses
-          </button>
-          <button
-            onClick={() => navigate("/company/proposals")}
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-100"
-          >
-            <FileText className="w-4 h-4" strokeWidth={1.5} />
-            My Proposals
-          </button>
-          <button
-            className="w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-sm bg-[#2d5a47] text-white font-semibold"
-          >
-            <FolderOpen className="w-4 h-4" strokeWidth={1.5} />
-            Active Projects & Submissions
-          </button>
+        <nav className="flex-1 space-y-1">
+          {NAV_ITEMS.map((item) => {
+            const Icon = item.icon;
+            const active = item.id === "projects";
+            return (
+              <button
+                key={item.id}
+                onClick={() => navigate(item.path)}
+                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all relative ${
+                  active
+                    ? "bg-[#2d5a47] text-white"
+                    : "text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                }`}
+                style={{ fontSize: 14, fontWeight: active ? 500 : 400 }}
+              >
+                <Icon className="w-[18px] h-[18px]" strokeWidth={1.5} />
+                <span className="flex-1 text-left">{item.label}</span>
+                {item.notif && !active && (
+                  <span className="w-2 h-2 rounded-full bg-orange-400" />
+                )}
+              </button>
+            );
+          })}
         </nav>
 
         {/* User Profile Section */}
-        <div className="border-t border-gray-200 pt-6 mt-6">
+        <div className="border-t border-gray-100 pt-6">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-[#2d5a47]/10 flex items-center justify-center text-[#2d5a47] text-xs font-semibold">
+            <div
+              className="shrink-0 rounded-full bg-[#2d5a47]/8 text-[#2d5a47] flex items-center justify-center"
+              style={{ width: 32, height: 32, fontSize: 11, fontWeight: 600 }}
+            >
               EK
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm text-gray-900 font-medium">Elina K.</p>
-              <p className="text-xs text-gray-600">Konecranes Ltd.</p>
+              <p style={{ fontSize: 13, fontWeight: 600, color: "#111827", margin: 0 }}>
+                Elina K.
+              </p>
+              <p style={{ fontSize: 12, fontWeight: 400, color: "#6b7280", margin: 0 }}>
+                Konecranes Ltd.
+              </p>
             </div>
           </div>
         </div>
       </aside>
 
       {/* Main Content Area */}
-      <main className="ml-[280px] flex-1 p-10">
-        <div className="max-w-[1200px] space-y-8">
+      <main style={{ marginLeft: 260, flex: 1, minHeight: "100vh" }}>
+        <div style={{ padding: "40px 40px 120px 40px", maxWidth: 1200 }}>
           {/* Breadcrumb */}
           <button
             onClick={() => navigate("/company/projects")}
-            className="flex items-center gap-2 text-sm text-gray-600 hover:text-gray-900 transition-colors group"
+            className="flex items-center gap-2 transition-colors group"
+            style={{
+              fontSize: 13,
+              fontWeight: 500,
+              color: "#6b7280",
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              marginBottom: 24,
+            }}
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" strokeWidth={1.5} />
             Back to Active Projects
           </button>
 
           {/* Main Content Header */}
-          <div className="space-y-2">
-            <h1 className="text-[32px] font-bold text-gray-900">Active Projects</h1>
-            <p className="text-sm text-gray-600 leading-relaxed">
-              Monitor your ongoing collaborations and manage pending requests from course coordinators.
+          <div style={{ marginBottom: 32 }}>
+            <h1
+              style={{
+                fontSize: 28,
+                fontWeight: 700,
+                color: "#111827",
+                margin: 0,
+                marginBottom: 6,
+              }}
+            >
+              {project.title}
+            </h1>
+            <p
+              style={{
+                fontSize: 15,
+                fontWeight: 400,
+                color: "#6b7280",
+                margin: 0,
+              }}
+            >
+              Sponsored by {project.sponsor} &bull; Teacher: {project.teacher}
             </p>
           </div>
 
           {/* Project Tracking Card */}
-          <div className="bg-white rounded-2xl border border-gray-200 p-8 space-y-8">
-            {/* Card Header */}
-            <div className="space-y-4">
-              <div className="flex items-start justify-between">
-                <div>
-                  <h2 className="text-xl font-semibold text-gray-900 mb-2">{projectTitle}</h2>
-                  <p className="text-sm text-gray-600">Sponsored by Konecranes • Teacher: {teacher}</p>
+          <div
+            style={{
+              backgroundColor: "#ffffff",
+              borderRadius: 16,
+              border: "1px solid rgba(0,0,0,0.05)",
+              padding: 32,
+            }}
+          >
+            {/* Progress Header */}
+            <div className="flex items-center justify-between" style={{ marginBottom: 24 }}>
+              <div>
+                <p style={{ fontSize: 13, fontWeight: 500, color: "#6b7280", margin: 0, marginBottom: 4 }}>
+                  Overall Progress
+                </p>
+                <div className="flex items-center gap-3">
+                  <div style={{ width: 240, height: 6, backgroundColor: "#f0f0ed", borderRadius: 3, overflow: "hidden" }}>
+                    <div
+                      style={{
+                        width: `${progressPercentage}%`,
+                        height: "100%",
+                        backgroundColor: "#2d5a47",
+                        borderRadius: 3,
+                        transition: "width 0.5s ease",
+                      }}
+                    />
+                  </div>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: "#2d5a47" }}>
+                    {progressPercentage}%
+                  </span>
                 </div>
-                <span className="inline-block px-3 py-1.5 rounded-lg text-xs font-bold bg-green-50 text-green-700">
-                  Week {currentWeek} of {totalWeeks}
-                </span>
               </div>
-
-              {/* Progress Bar */}
-              <div className="w-full">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs font-medium text-gray-700">Overall Progress</span>
-                  <span className="text-xs font-semibold text-[#2d5a47]">{progressPercentage}%</span>
-                </div>
-                <div className="w-full h-3 bg-[#f0f0ed] rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-[#2d5a47] rounded-full transition-all duration-500"
-                    style={{ width: `${progressPercentage}%` }}
-                  />
-                </div>
-              </div>
+              <span
+                style={{
+                  padding: "4px 12px",
+                  borderRadius: 8,
+                  fontSize: 12,
+                  fontWeight: 600,
+                  backgroundColor: "rgba(34, 197, 94, 0.08)",
+                  color: "#15803d",
+                }}
+              >
+                Week {project.currentWeek} of {project.totalWeeks}
+              </span>
             </div>
 
             {/* Teacher Requests & Submission Section (The Moodle Vibe) */}
-            <div className="space-y-6">
+            <div>
               {/* Section Header */}
-              <div className="border-t border-gray-200 pt-6">
-                <h3 className="text-base font-bold text-gray-800">
-                  Pending Action Items from {teacher}
+              <div style={{ borderTop: "1px solid #f3f4f6", paddingTop: 24, marginBottom: 20 }}>
+                <h3 style={{ fontSize: 16, fontWeight: 700, color: "#111827", margin: 0, marginBottom: 4 }}>
+                  Pending Action Items from {project.teacher}
                 </h3>
-                <p className="text-sm text-gray-600 mt-1">
+                <p style={{ fontSize: 13, fontWeight: 400, color: "#6b7280", margin: 0 }}>
                   Complete these deliverables and submit them to your course coordinator
                 </p>
               </div>
 
               {/* Pending Tasks List */}
-              <div className="space-y-4">
+              <div style={{ display: "flex", flexDirection: "column", gap: 16, marginBottom: 24 }}>
                 {pendingRequests.map((request) => (
-                  <div key={request.id} className="border border-gray-200 rounded-xl p-5 hover:border-gray-300 transition-all bg-white">
+                  <div
+                    key={request.id}
+                    style={{
+                      border: "1px solid rgba(0,0,0,0.06)",
+                      borderRadius: 12,
+                      padding: 20,
+                      transition: "border-color 0.2s ease",
+                    }}
+                  >
                     <div className="flex items-start justify-between gap-6">
                       {/* Left Side - Task Info */}
-                      <div className="flex-1 space-y-2">
+                      <div className="flex-1">
                         <div className="flex items-start gap-3">
                           <AlertCircle className="w-5 h-5 text-amber-500 flex-shrink-0 mt-0.5" strokeWidth={2} />
                           <div>
-                            <h4 className="text-sm font-semibold text-gray-900 leading-tight">
+                            <h4 style={{ fontSize: 14, fontWeight: 600, color: "#111827", margin: 0, marginBottom: 4 }}>
                               {request.title}
                             </h4>
-                            <p className="text-xs text-gray-600 mt-1 leading-relaxed">
+                            <p style={{ fontSize: 12, fontWeight: 400, color: "#6b7280", margin: 0, marginBottom: 8, lineHeight: 1.5 }}>
                               {request.description}
                             </p>
-                            <p className="text-xs text-amber-600 font-medium mt-2">
+                            <p style={{ fontSize: 12, fontWeight: 600, color: "#b45309", margin: 0 }}>
                               Deadline: {request.deadline}
                             </p>
                           </div>
@@ -247,19 +397,44 @@ export function ProjectWorkspace() {
                       </div>
 
                       {/* Right Side - File Dropzone */}
-                      <div className="flex-shrink-0 w-[320px]">
+                      <div className="flex-shrink-0" style={{ width: 300 }}>
                         {uploadedFiles[request.id] ? (
-                          <div className="border-2 border-green-500 bg-green-50 rounded-xl p-4">
+                          <div
+                            style={{
+                              padding: 16,
+                              borderRadius: 12,
+                              border: "2px solid rgba(34,197,94,0.3)",
+                              backgroundColor: "rgba(34,197,94,0.04)",
+                            }}
+                          >
                             <div className="flex items-center gap-3">
-                              <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center flex-shrink-0">
+                              <div
+                                className="flex items-center justify-center rounded-lg flex-shrink-0"
+                                style={{ width: 40, height: 40, backgroundColor: "#d1fae5" }}
+                              >
                                 <FileIcon className="w-5 h-5 text-green-700" strokeWidth={1.5} />
                               </div>
                               <div className="flex-1 min-w-0">
-                                <p className="text-sm font-semibold text-green-900 truncate">{uploadedFiles[request.id].name}</p>
-                                <p className="text-xs text-green-700">Ready to submit</p>
+                                <p className="truncate" style={{ fontSize: 13, fontWeight: 600, color: "#065f46", margin: 0 }}>
+                                  {uploadedFiles[request.id].name}
+                                </p>
+                                <p style={{ fontSize: 11, color: "#15803d", margin: 0 }}>Ready to submit</p>
                               </div>
                             </div>
-                            <button className="w-full mt-3 px-4 py-2 bg-[#2d5a47] text-white rounded-lg hover:bg-[#234739] transition-all font-semibold text-sm">
+                            <button
+                              className="w-full transition-all"
+                              style={{
+                                marginTop: 12,
+                                padding: "8px 16px",
+                                borderRadius: 8,
+                                fontSize: 13,
+                                fontWeight: 600,
+                                backgroundColor: "#2d5a47",
+                                color: "#ffffff",
+                                border: "none",
+                                cursor: "pointer",
+                              }}
+                            >
                               Submit to Teacher
                             </button>
                           </div>
@@ -269,29 +444,43 @@ export function ProjectWorkspace() {
                             onDragOver={(e) => e.preventDefault()}
                             onDragLeave={() => handleDragLeave(request.id)}
                             onDrop={(e) => handleDrop(request.id, e)}
-                            className={`border-2 border-dashed rounded-xl p-6 cursor-pointer transition-all ${
-                              dragActive[request.id]
-                                ? "border-[#2d5a47] bg-[#2d5a47]/5"
-                                : "border-gray-300 bg-[#f0f0ed] hover:border-[#2d5a47] hover:bg-[#2d5a47]/5"
-                            }`}
+                            className="transition-all"
+                            style={{
+                              padding: 20,
+                              borderRadius: 12,
+                              backgroundColor: dragActive[request.id] ? "rgba(45,90,71,0.04)" : "#f0f0ed",
+                              border: dragActive[request.id]
+                                ? "2px dashed #2d5a47"
+                                : "2px dashed #d1d5db",
+                              cursor: "pointer",
+                            }}
                           >
                             <input
                               type="file"
                               id={`file-upload-${request.id}`}
-                              accept=".pdf,.ppt,.pptx"
+                              accept=".pdf,.ppt,.pptx,.doc,.docx"
                               onChange={(e) => handleFileSelect(request.id, e)}
                               className="hidden"
                             />
                             <label htmlFor={`file-upload-${request.id}`} className="cursor-pointer">
-                              <div className="flex flex-col items-center text-center space-y-3">
-                                <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
-                                  <Upload className="w-6 h-6 text-gray-500" strokeWidth={1.5} />
+                              <div className="flex flex-col items-center text-center" style={{ gap: 8 }}>
+                                <div
+                                  className="flex items-center justify-center rounded-full"
+                                  style={{ width: 40, height: 40, backgroundColor: dragActive[request.id] ? "rgba(45,90,71,0.08)" : "#e5e5e3" }}
+                                >
+                                  <Upload
+                                    className="w-5 h-5"
+                                    color={dragActive[request.id] ? "#2d5a47" : "#9ca3af"}
+                                    strokeWidth={1.5}
+                                  />
                                 </div>
                                 <div>
-                                  <p className="text-sm font-medium text-gray-700">
+                                  <p style={{ fontSize: 12, fontWeight: 500, color: dragActive[request.id] ? "#2d5a47" : "#6b7280", margin: 0 }}>
                                     {dragActive[request.id] ? "Drop file here" : "Drag and drop PDF/PPTX here"}
                                   </p>
-                                  <p className="text-xs text-gray-500 mt-1">or click to browse files</p>
+                                  <p style={{ fontSize: 11, color: "#9ca3af", margin: "4px 0 0 0" }}>
+                                    or click to browse files
+                                  </p>
                                 </div>
                               </div>
                             </label>
@@ -305,30 +494,59 @@ export function ProjectWorkspace() {
 
               {/* Completed Tasks Section */}
               {completedRequests.length > 0 && (
-                <div className="space-y-4 pt-6 border-t border-gray-200">
-                  <h3 className="text-base font-bold text-gray-800">Completed Submissions</h3>
-                  <div className="space-y-3">
+                <div style={{ borderTop: "1px solid #f3f4f6", paddingTop: 24 }}>
+                  <h3 style={{ fontSize: 16, fontWeight: 700, color: "#111827", margin: 0, marginBottom: 16 }}>
+                    Completed Submissions
+                  </h3>
+                  <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                     {completedRequests.map((request) => (
-                      <div key={request.id} className="border border-green-200 bg-green-50/50 rounded-xl p-5">
+                      <div
+                        key={request.id}
+                        style={{
+                          border: "1px solid rgba(34,197,94,0.12)",
+                          backgroundColor: "rgba(34,197,94,0.02)",
+                          borderRadius: 12,
+                          padding: 20,
+                        }}
+                      >
                         <div className="flex items-center justify-between gap-6">
                           {/* Left Side - Task Info */}
                           <div className="flex items-start gap-3 flex-1">
                             <CheckCircle2 className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" strokeWidth={2} />
                             <div>
-                              <h4 className="text-sm font-semibold text-gray-900">{request.title}</h4>
-                              <p className="text-xs text-gray-600 mt-1">{request.description}</p>
+                              <h4 style={{ fontSize: 14, fontWeight: 600, color: "#111827", margin: 0 }}>
+                                {request.title}
+                              </h4>
+                              <p style={{ fontSize: 12, color: "#6b7280", margin: "4px 0 0 0" }}>
+                                {request.description}
+                              </p>
                             </div>
                           </div>
 
                           {/* Right Side - Submission Info */}
                           <div className="flex items-center gap-4">
                             <div className="text-right">
-                              <p className="text-sm font-medium text-gray-900">
+                              <p style={{ fontSize: 13, fontWeight: 500, color: "#111827", margin: 0 }}>
                                 {request.submittedFile?.name}
                               </p>
-                              <p className="text-xs text-gray-600">Submitted on {request.submittedFile?.submittedOn}</p>
+                              <p style={{ fontSize: 11, color: "#6b7280", margin: "2px 0 0 0" }}>
+                                Submitted on {request.submittedFile?.submittedOn}
+                              </p>
                             </div>
-                            <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 transition-all flex items-center gap-2 font-medium text-sm whitespace-nowrap">
+                            <button
+                              className="flex items-center gap-2 transition-all"
+                              style={{
+                                padding: "7px 14px",
+                                borderRadius: 8,
+                                fontSize: 12,
+                                fontWeight: 500,
+                                color: "#374151",
+                                backgroundColor: "transparent",
+                                border: "1px solid #e5e7eb",
+                                cursor: "pointer",
+                                whiteSpace: "nowrap",
+                              }}
+                            >
                               <Eye className="w-4 h-4" strokeWidth={1.5} />
                               View Submission
                             </button>

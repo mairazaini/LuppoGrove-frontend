@@ -50,12 +50,13 @@ interface SemesterData {
 
 interface CourseCard {
   id: string;
-  company: string;
+  university: string;
   title: string;
   detail: string;
   imageUrl: string;
   imageGradient: string;
   tags: string[];
+  route: string;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -65,7 +66,6 @@ const team: TeamMember[] = [
   { id: "1", name: "Alex Chen", initials: "AC", role: "Owner" },
   { id: "2", name: "Maria Santos", initials: "MS", role: "Co-owner" },
   { id: "3", name: "David Lee", initials: "DL", role: "Developer" },
-  { id: "4", name: "Emma Wilson", initials: "EW", role: "Developer" },
 ];
 
 const ROLE_PILL: Record<string, string> = {
@@ -226,58 +226,54 @@ const timelineData: Record<string, SemesterData> = {
 
 const courses: CourseCard[] = [
   {
-    id: "proj-1",
-    company: "Konecranes Ltd.",
-    title: "Predictive Maintenance Algorithm",
-    detail: "12 Weeks \u2022 Software Engineering",
-    imageUrl: "https://images.unsplash.com/photo-1762889597634-264f0907820b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpbmR1c3RyaWFsJTIwY3JhbmUlMjBtYWNoaW5lcnklMjBlbmdpbmVlcmluZ3xlbnwxfHx8fDE3NzIzOTQ4MjB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    id: "aalto-design",
+    university: "Aalto University",
+    title: "Design Factory — Product Development Project",
+    detail: "20 Weeks \u2022 Interdisciplinary Design",
+    imageUrl: "https://images.unsplash.com/photo-1768044325587-65a9dfdb562f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBkZXNpZ24lMjBzY2hvb2wlMjBhcmNoaXRlY3R1cmUlMjBzdHVkaW98ZW58MXx8fHwxNzczNzQzNjk0fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     imageGradient: "linear-gradient(135deg, #2d5a47 0%, #4a7c5d 100%)",
-    tags: ["Software"],
+    tags: ["Software", "Service Design"],
+    route: "/company/courses/aalto/design-factory",
   },
   {
-    id: "proj-2",
-    company: "Nordea Bank",
-    title: "Customer Behavior Analytics Dashboard",
-    detail: "10 Weeks \u2022 Data Analytics",
-    imageUrl: "https://images.unsplash.com/photo-1759752394755-1241472b589d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkYXRhJTIwYW5hbHl0aWNzJTIwZGFzaGJvYXJkJTIwc2NyZWVufGVufDF8fHx8MTc3MjM3NjI5Mnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    id: "helsinki-fullstack",
+    university: "University of Helsinki",
+    title: "Full Stack Web Development Project",
+    detail: "7 Weeks \u2022 Software Engineering",
+    imageUrl: "https://images.unsplash.com/photo-1572382817039-2beeb0ce8dfc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxIZWxzaW5raSUyMHVuaXZlcnNpdHklMjBsaWJyYXJ5JTIwRmlubGFuZCUyMGFjYWRlbWljfGVufDF8fHx8MTc3Mzc0MzY5MXww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     imageGradient: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-    tags: ["Data Analytics"],
+    tags: ["Software"],
+    route: "/company/courses/helsinki/fullstack",
   },
   {
-    id: "proj-3",
-    company: "Supercell",
-    title: "AI-Powered Content Moderation",
-    detail: "14 Weeks \u2022 AI",
-    imageUrl: "https://images.unsplash.com/photo-1761223956849-c6912f2179aa?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxBSSUyMGFydGlmaWNpYWwlMjBpbnRlbGxpZ2VuY2UlMjBhYnN0cmFjdCUyMG5ldXJhbHxlbnwxfHx8fDE3NzIzOTQ4MjF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    imageGradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
-    tags: ["AI"],
-  },
-  {
-    id: "proj-4",
-    company: "W\u00e4rtsil\u00e4",
-    title: "Supply Chain Optimization Tool",
-    detail: "12 Weeks \u2022 Software Engineering",
-    imageUrl: "https://images.unsplash.com/photo-1619070284836-e850273d69ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdXBwbHklMjBjaGFpbiUyMGxvZ2lzdGljcyUyMHdhcmVob3VzZXxlbnwxfHx8fDE3NzIzNjEyNDB8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    id: "oulu-digital",
+    university: "University of Oulu",
+    title: "Digital Service Development",
+    detail: "16 Weeks \u2022 Service Design",
+    imageUrl: "https://images.unsplash.com/photo-1675005882031-9a992de76eee?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxGaW5uaXNoJTIwdW5pdmVyc2l0eSUyMGNhbXB1cyUyMHdpbnRlciUyME5vcmRpY3xlbnwxfHx8fDE3NzM3NDM2OTF8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     imageGradient: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+    tags: ["Service Design"],
+    route: "/company/courses/oulu/digital-service",
+  },
+  {
+    id: "tampere-sw",
+    university: "Tampere University",
+    title: "Software Engineering Project",
+    detail: "14 Weeks \u2022 Software Engineering",
+    imageUrl: "https://images.unsplash.com/photo-1591812187037-bcd060f1bd00?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxUYW1wZXJlJTIwRmlubGFuZCUyMGNpdHklMjB0ZWNobm9sb2d5JTIwY2FtcHVzfGVufDF8fHx8MTc3Mzc0MzY5Mnww&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    imageGradient: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
     tags: ["Software"],
+    route: "/company/courses/tampere/sw-project",
   },
   {
-    id: "proj-5",
-    company: "YLE",
-    title: "Real-Time Sentiment Analysis",
-    detail: "8 Weeks \u2022 AI",
-    imageUrl: "https://images.unsplash.com/photo-1760895653496-b28ed02f3705?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxicm9hZGNhc3QlMjBtZWRpYSUyMHN0dWRpbyUyMHRlY2hub2xvZ3l8ZW58MXx8fHwxNzcyMzk0ODIyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-    imageGradient: "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
-    tags: ["AI"],
-  },
-  {
-    id: "proj-6",
-    company: "Generic Corp",
-    title: "IoT Device Management Platform",
-    detail: "16 Weeks \u2022 Software Engineering",
-    imageUrl: "https://images.unsplash.com/photo-1746017187853-936e4c4e4895?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxJb1QlMjBzbWFydCUyMGRldmljZSUyMGNpcmN1aXQlMjBib2FyZHxlbnwxfHx8fDE3NzIzOTQ4MjJ8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    id: "jyvaskyla-is",
+    university: "University of Jyväskylä",
+    title: "Information Systems Project",
+    detail: "12 Weeks \u2022 Data Analytics",
+    imageUrl: "https://images.unsplash.com/photo-1573365295861-d7e8e19d2372?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxKeXZhc2t5bGElMjBGaW5sYW5kJTIwbGFrZSUyMHVuaXZlcnNpdHklMjBuYXR1cmV8ZW58MXx8fHwxNzczNzQzNjkyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
     imageGradient: "linear-gradient(135deg, #30cfd0 0%, #330867 100%)",
-    tags: ["Software"],
+    tags: ["Data Analytics"],
+    route: "/company/courses/jyvaskyla/is-project",
   },
 ];
 
@@ -625,7 +621,7 @@ export function CompanyHub() {
                               <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 opacity-0 group-hover/ms:opacity-100 transition-all duration-150 pointer-events-none z-30">
                                 <div className="bg-white whitespace-nowrap" style={{ padding: "8px 14px", borderRadius: 12, boxShadow: "0 8px 24px rgba(0,0,0,0.08), 0 2px 8px rgba(0,0,0,0.04)", border: "1px solid rgba(0,0,0,0.04)" }}>
                                   <p style={{ fontSize: 12, fontWeight: 600, color: "#111827", margin: 0 }}>{ms.label}</p>
-                                  <p style={{ fontSize: 11, color: "#6b7280", marginTop: 2, margin: 0 }}>{ms.date}</p>
+                                  <p style={{ fontSize: 11, color: "#6b7280", margin: "2px 0 0 0" }}>{ms.date}</p>
                                 </div>
                                 <div className="absolute left-1/2 -translate-x-1/2 bg-white border-r border-b rotate-45" style={{ width: 8, height: 8, bottom: -4, borderColor: "rgba(0,0,0,0.04)" }} />
                               </div>
@@ -755,7 +751,7 @@ export function CompanyHub() {
                                     <p style={{ fontSize: 12, fontWeight: 600, color: "#111827", margin: 0 }}>
                                       {ms.label}
                                     </p>
-                                    <p style={{ fontSize: 11, color: "#6b7280", marginTop: 2, margin: 0 }}>
+                                    <p style={{ fontSize: 11, color: "#6b7280", margin: "2px 0 0 0" }}>
                                       {ms.date}
                                     </p>
                                   </div>
@@ -798,7 +794,7 @@ export function CompanyHub() {
         <div id="partnerships" style={{ padding: 40 }}>
           {/* Section Header */}
           <h2 style={{ fontSize: 24, fontWeight: 700, color: "#1a2332", margin: 0, marginBottom: 20 }}>
-            Available Project Proposals
+            Available University Courses
           </h2>
 
           {/* Topic Filter Bar */}
@@ -847,7 +843,7 @@ export function CompanyHub() {
                 className="bg-white overflow-hidden group flex flex-col"
                 style={{
                   width: 340,
-                  height: 440,
+                  height: 420,
                   borderRadius: 16,
                   boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
                   border: "1px solid rgba(0,0,0,0.05)",
@@ -867,14 +863,14 @@ export function CompanyHub() {
                 <div
                   className="relative overflow-hidden"
                   style={{ height: 140, background: course.imageGradient }}
-                  onClick={() => navigate(`/company/overview/${course.id}`)}
+                  onClick={() => navigate(course.route)}
                 >
                   <ImageWithFallback
                     src={course.imageUrl}
                     alt={course.title}
                     className="w-full h-full object-cover opacity-30 mix-blend-overlay"
                   />
-                  {/* Company Overlay Pill */}
+                  {/* University Overlay Pill */}
                   <div className="absolute bottom-3 left-4">
                     <span
                       className="bg-white/95 text-gray-700 backdrop-blur-sm"
@@ -887,14 +883,14 @@ export function CompanyHub() {
                         boxShadow: "0 2px 8px rgba(0,0,0,0.08)",
                       }}
                     >
-                      {course.company}
+                      {course.university}
                     </span>
                   </div>
                 </div>
 
                 {/* Card Body */}
                 <div
-                  onClick={() => navigate(`/company/overview/${course.id}`)}
+                  onClick={() => navigate(course.route)}
                   style={{ padding: "16px 20px 0 20px", display: "flex", flexDirection: "column", gap: 10, flex: 1 }}
                 >
                   <h3 style={{ fontSize: 18, fontWeight: 600, color: "#111827", lineHeight: 1.3, margin: 0 }}>
@@ -910,7 +906,7 @@ export function CompanyHub() {
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
-                      navigate(`/company/overview/${course.id}`);
+                      navigate(course.route);
                     }}
                     className="w-full transition-all"
                     style={{
@@ -932,7 +928,7 @@ export function CompanyHub() {
                       (e.currentTarget as HTMLElement).style.boxShadow = "none";
                     }}
                   >
-                    View Project Details
+                    View Course Requirements
                   </button>
                 </div>
               </div>

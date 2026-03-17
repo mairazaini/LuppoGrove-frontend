@@ -20,7 +20,7 @@ import { DemoNav } from "@/app/components/DemoNav";
    TYPES
    ═══════════════════════════════════════════════════════════ */
 type ProposalStatus = "draft" | "under-review" | "approved" | "rejected";
-type FilterStatus = "all" | "draft" | "under-review" | "approved";
+type FilterStatus = "all" | "draft" | "under-review" | "approved" | "rejected";
 
 interface Proposal {
   id: string;
@@ -157,6 +157,7 @@ const FILTER_OPTIONS: { key: FilterStatus; label: string }[] = [
   { key: "draft", label: "Drafts" },
   { key: "under-review", label: "Under Review" },
   { key: "approved", label: "Approved" },
+  { key: "rejected", label: "Rejected" },
 ];
 
 /* ═══════════════════════════════════════════════════════════
@@ -175,6 +176,7 @@ export function MyProposals() {
     draft: proposals.filter((p) => p.status === "draft").length,
     "under-review": proposals.filter((p) => p.status === "under-review").length,
     approved: proposals.filter((p) => p.status === "approved").length,
+    rejected: proposals.filter((p) => p.status === "rejected").length,
   };
 
   return (
@@ -345,6 +347,7 @@ export function MyProposals() {
               { label: "Drafts", count: counts.draft, color: "#64748b" },
               { label: "In Review", count: counts["under-review"], color: "#b45309" },
               { label: "Approved", count: counts.approved, color: "#15803d" },
+              { label: "Rejected", count: counts.rejected, color: "#dc2626" },
             ].map((stat) => (
               <div
                 key={stat.label}
